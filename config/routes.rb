@@ -3,9 +3,12 @@ CodeceryTickets::Application.routes.draw do
       resources :comments
   end
 
+  resources :users, only: [:create]
+
   get '/sign_in', to: "sessions#new"
   post '/sessions', to: "sessions#create"
   get 'sign_out', to: 'sessions#destroy'
+  get '/register', to: 'users#new'
 
 
   # The priority is based upon order of creation: first created -> highest priority.

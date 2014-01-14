@@ -1,4 +1,6 @@
-<h1>Login</h1>
+<h1>Login or Create an Account</h1>
+<div>
+<h2>Registered Clients</h2>
 
     <%= form_tag '/sessions' do %>
         <%= label_tag :email%>
@@ -11,3 +13,12 @@
         </br>
     <%= submit_tag "Login"%>
 <% end %>
+</div>
+
+<div>
+<h2>New Clients</h2>
+<p>
+By creating an account with us, you will be able to make requests to our team.
+</p>
+<%= link_to 'Register', register_path %>
+</div>

@@ -1,6 +1,7 @@
 class SessionsController < ApplicationController
 
 	def new
+        redirect_to tickets_path if current_user
 	end
 
 	def create
