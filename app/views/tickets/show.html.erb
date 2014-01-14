@@ -30,7 +30,7 @@
 <% end %>
 </br>
 <% @ticket.comments.each do |comment| %>
-	<%= comment.body %> - created at: <%= comment.created_at %>
+	<%= comment.body %> - created at: <%= comment.created_at %> by <%= comment.user.name %> <%= comment.user.last_name %>
   </br>
 <% end %>
 </p>

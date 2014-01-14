@@ -3,6 +3,7 @@ class CommentsController < ApplicationController
 		@ticket = Ticket.find(params[:ticket_id])
 		@comment = Comment.new(comment_params)
 		@comment.ticket = @ticket
+		@comment.user = current_user
 		respond_to do |format|
 		      if @comment.save
 		        format.html { redirect_to @ticket, notice: 'Comment was successfully created.' }
