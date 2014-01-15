@@ -2,11 +2,13 @@ class TicketsController < ApplicationController
   before_action :set_ticket, only: [:show, :edit, :update, :destroy]
 
   before_filter :require_user, only: [:show, :edit, :update, :index, :new]
+  before_filter :require_same, only: [:show]
 
   # GET /tickets
   # GET /tickets.json
   def index
-    @tickets = Ticket.all
+    @user = current_user
+    @tickets = @user.tickets
   end
 
   # GET /tickets/1
@@ -30,6 +32,7 @@ class TicketsController < ApplicationController
   def create
     @ticket = Ticket.new(ticket_params)
     @ticket.status = "Approval Pending"
+    @ticket.user = current_user
     respond_to do |format|
       if @ticket.save
         format.html { redirect_to @ticket, notice: 'Ticket was successfully created.' }
@@ -63,6 +66,10 @@ class TicketsController < ApplicationController
       format.html { redirect_to tickets_url }
       format.json { head :no_content }
     end
+  end
+
+  def require_same
+    redirect_to tickets_path unless @ticket.user == current_user
   end
 
   private

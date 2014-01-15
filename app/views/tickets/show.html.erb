@@ -20,6 +20,11 @@
   <%= @ticket.status %>
 </p>
 
+<p>
+  <strong>Created at:</strong>
+  <%= @ticket.created_at %> by <%= @ticket.user.name %> <%= @ticket.user.last_name %> 
+</p>
+
 <strong>Comments:</strong>
 <p>
 

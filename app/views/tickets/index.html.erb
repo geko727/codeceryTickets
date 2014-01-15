@@ -1,33 +1,67 @@
-<h1>Listing tickets</h1>
+<h1><%= current_user.name %>'s tickets</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Description</th>
-      <th>Deadline</th>
-      <th>Status</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @tickets.each do |ticket| %>
+<div>
+  <h2>Last Activity</h2>
+  <table>
+    <thead>
       <tr>
-        <td><%= link_to ticket.title, ticket %></td>
-        <td><%= ticket.description %></td>
-        <td><%= ticket.deadline %></td>
-        <td><%= ticket.status %></td>
-        <!--<td><%= link_to 'Show', ticket %></td>
-        <td><%= link_to 'Edit', edit_ticket_path(ticket) %></td>
-        <td><%= link_to 'Destroy', ticket, method: :delete, data: { confirm: 'Are you sure?' } %></td>-->
+        <th>Title</th>
+        <th>Description</th>
+        <th>Deadline</th>
+        <th>Status</th>
+        <!--<th></th>
+        <th></th>
+        <th></th>-->
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
+    <tbody>
+      <% @ticket = Ticket.order("created_at").last %>
+        <tr>
+          <td><%= link_to @ticket.title, @ticket %></td>
+          <td><%= @ticket.description %></td>
+          <td><%= @ticket.deadline %></td>
+          <td><%= @ticket.status %></td>
+          <!--<td><%= link_to 'Show', @ticket %></td>
+          <td><%= link_to 'Edit', edit_ticket_path(@ticket) %></td>
+          <td><%= link_to 'Destroy', @ticket, method: :delete, data: { confirm: 'Are you sure?' } %></td>-->
+        </tr>
+      
+    </tbody>
+  </table>
+</div>
+<br>
+
+<div>
+  <h2>Listing Tickets</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <!--<th>Deadline</th>
+        <th>Status</th>
+        <th></th>
+        <th></th>
+        <th></th>-->
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @tickets.each do |ticket| %>
+        <tr>
+          <td><%= link_to ticket.title, ticket %></td>
+          <td><%= ticket.description %></td>
+          <!--<td><%= ticket.deadline %></td>
+          <td><%= ticket.status %></td>
+          <td><%= link_to 'Show', ticket %></td>
+          <td><%= link_to 'Edit', edit_ticket_path(ticket) %></td>
+          <td><%= link_to 'Destroy', ticket, method: :delete, data: { confirm: 'Are you sure?' } %></td>-->
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 <br>
 
 <%= link_to 'New Ticket', new_ticket_path %>
