@@ -9,6 +9,7 @@ class TicketsController < ApplicationController
   def index
     @user = current_user
     @tickets = @user.tickets
+    @new_ticket = Ticket.new
   end
 
   # GET /tickets/1

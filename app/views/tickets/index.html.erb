@@ -1,67 +1,115 @@
 <h1><%= current_user.name %>'s tickets</h1>
 
+
 <div>
   <h2>Last Activity</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Title</th>
-        <th>Description</th>
-        <th>Deadline</th>
-        <th>Status</th>
-        <!--<th></th>
-        <th></th>
-        <th></th>-->
-      </tr>
-    </thead>
-
-    <tbody>
-      <% @ticket = Ticket.order("created_at").last %>
+  <% if @tickets %>
+    <table>
+      <thead>
         <tr>
-          <td><%= link_to @ticket.title, @ticket %></td>
-          <td><%= @ticket.description %></td>
-          <td><%= @ticket.deadline %></td>
-          <td><%= @ticket.status %></td>
-          <!--<td><%= link_to 'Show', @ticket %></td>
-          <td><%= link_to 'Edit', edit_ticket_path(@ticket) %></td>
-          <td><%= link_to 'Destroy', @ticket, method: :delete, data: { confirm: 'Are you sure?' } %></td>-->
+          <th>Title</th>
+          <th>Description</th>
+          <th>Deadline</th>
+          <th>Status</th>
+          <!--<th></th>
+          <th></th>
+          <th></th>-->
         </tr>
-      
-    </tbody>
-  </table>
+      </thead>
+
+      <tbody>
+        <% @ticket = comment_or_ticket %>
+        
+          <tr>
+            <td><%= link_to @ticket.title, @ticket %></td>
+            <td><%= @ticket.description %></td>
+            <td><%= @ticket.deadline %></td>
+            <td><%= @ticket.status %></td>
+            <!--<td><%= link_to 'Show', @ticket %></td>
+            <td><%= link_to 'Edit', edit_ticket_path(@ticket) %></td>
+            <td><%= link_to 'Destroy', @ticket, method: :delete, data: { confirm: 'Are you sure?' } %></td>-->
+          </tr>
+        
+      </tbody>
+    </table>
+      <% if @ticket.last_comment != nil %>
+        <h3>Last Comment:</h3>
+        <%= @ticket.comments.last.body %>  - created at: <%= @ticket.comments.last.created_at %> by <%= @ticket.comments.last.user.name %> <%= @ticket.comments.last.user.last_name %>
+      <% end %> 
+    <% else %>
+      <h3> You have not generated any tickets yet. </h3>
+  <% end %>
 </div>
+
 <br>
 
 <div>
   <h2>Listing Tickets</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Title</th>
-        <th>Description</th>
-        <!--<th>Deadline</th>
-        <th>Status</th>
-        <th></th>
-        <th></th>
-        <th></th>-->
-      </tr>
-    </thead>
-
-    <tbody>
-      <% @tickets.each do |ticket| %>
+  <% if @tickets %>
+    <table>
+      <thead>
         <tr>
-          <td><%= link_to ticket.title, ticket %></td>
-          <td><%= ticket.description %></td>
-          <!--<td><%= ticket.deadline %></td>
-          <td><%= ticket.status %></td>
-          <td><%= link_to 'Show', ticket %></td>
-          <td><%= link_to 'Edit', edit_ticket_path(ticket) %></td>
-          <td><%= link_to 'Destroy', ticket, method: :delete, data: { confirm: 'Are you sure?' } %></td>-->
+          <th>Title</th>
+          <th>Description</th>
+          <!--<th>Deadline</th>
+          <th>Status</th>
+          <th></th>
+          <th></th>
+          <th></th>-->
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+
+      <tbody>
+        <% @tickets.each do |ticket| %>
+          <tr>
+            <td><%= link_to ticket.title, ticket %></td>
+            <td><%= ticket.description %></td>
+            <!--<td><%= ticket.deadline %></td>
+            <td><%= ticket.status %></td>
+            <td><%= link_to 'Show', ticket %></td>
+            <td><%= link_to 'Edit', edit_ticket_path(ticket) %></td>
+            <td><%= link_to 'Destroy', ticket, method: :delete, data: { confirm: 'Are you sure?' } %></td>-->
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <h3> You have not generated any tickets yet. </h3>
+  <% end %>
 </div>
 <br>
 
-<%= link_to 'New Ticket', new_ticket_path %>
+
+<div>
+  <h2> New Ticket </h2>
+    <%= form_for(@new_ticket) do |f| %>
+  <% if @ticket.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@ticket.errors.count, "error") %> prohibited this ticket from being saved:</h2>
+
+      <ul>
+      <% @ticket.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :title %><br>
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :description %><br>
+    <%= f.text_area :description %>
+  </div>
+  <div class="field">
+    <%= f.label :deadline %><br>
+    <%= f.date_select :deadline %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+</div>
+
