@@ -1,8 +1,9 @@
 class TicketsController < ApplicationController
   before_action :set_ticket, only: [:show, :edit, :update, :destroy]
 
-  before_filter :require_user, only: [:show, :edit, :update, :index, :new]
+  before_filter :require_user, only: [:edit, :update, :index, :new]
   before_filter :require_same, only: [:show]
+  
 
   # GET /tickets
   # GET /tickets.json
@@ -10,6 +11,16 @@ class TicketsController < ApplicationController
     @user = current_user
     @tickets = @user.tickets
     @new_ticket = Ticket.new
+  end
+
+  def code_index
+    @user = current_user
+    @tickets = Ticket.all
+  end
+
+  def code_ticket
+    @ticket = Ticket.find(params[:id])
+    @comment = Comment.new
   end
 
   # GET /tickets/1
@@ -70,7 +81,7 @@ class TicketsController < ApplicationController
   end
 
   def require_same
-    redirect_to tickets_path unless @ticket.user == current_user
+      redirect_to tickets_path unless @ticket.user == current_user || current_user.codecery
   end
 
   private

@@ -42,3 +42,76 @@
 
 <%= link_to 'Edit', edit_ticket_path(@ticket) %> |
 <%= link_to 'Back', tickets_path %>
+
+
+<% if current_user.codecery %>
+<div>
+</p>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+  <title></title>
+  <h2>Timer</h2>
+<script type="text/javascript">
+/*<![CDATA[*/
+function zxcStartTime(id,srt){
+ var obj=document.getElementById(id),ms=obj.value.split(/\W/);
+  if (zxcStartTime[id]){
+  clearTimeout(zxcStartTime[id].to);
+  document.getElementById('stop').style.visibility = "hidden";
+  document.getElementById('clear').style.visibility = "visible";
+  document.getElementById('resume').style.visibility = "visible";
+ }
+ if (srt&&isFinite(ms[0])&&isFinite(ms[1])){
+  zxcStartTime[id]={
+   obj:obj,
+   srt:new Date(),
+   time:ms[0]*60+ms[1]*1
+ }
+  document.getElementById('stop').style.visibility = "visible";
+  document.getElementById('start').style.visibility = "hidden";
+  document.getElementById('clear').style.visibility = "hidden";
+  document.getElementById('resume').style.visibility = "hidden";
+  zxcTick(zxcStartTime[id]);
+ }
+}
+
+function zxcTick(o){
+ var now=Math.floor(o.time+(new Date()-o.srt)/1000);
+ if (now>=0){
+  o.obj.value=zxcNu(Math.floor(now/3600))+':'+zxcNu(Math.floor((now/60)%60))+':'+zxcNu(now%60);
+  o.to=setTimeout(function(){ zxcTick(o); },1000)
+ }
+}
+
+function zxcNu(nu){
+ return (nu>9?'':'0')+nu;
+}
+
+function zxcresumeTime(id){
+  zxcTick(zxcStartTime[id])
+  document.getElementById('stop').style.visibility = "visible";
+  document.getElementById('clear').style.visibility = "hidden";
+  document.getElementById('resume').style.visibility = "hidden";
+}
+
+function zxcClearTime(o){
+  document.getElementById(o).value="00:00:00";
+  document.getElementById('start').style.visibility = "visible";
+  document.getElementById('clear').style.visibility = "hidden";
+  document.getElementById('resume').style.visibility = "hidden";
+}
+
+/*]]>*/
+</script></head>
+
+<body>
+<input id="time" value="00:00:00" /><input type="button" name="" id="start" value="Start" onmouseup="zxcStartTime('time',true);" /><input type="button" name="" id="stop" value="Stop" onmouseup="zxcStartTime('time',false);" style="visibility:hidden"/><input type="button" id='clear' name="" value="Clear" onmouseup="zxcClearTime('time');" style="visibility:hidden"/><input type="button" id='resume' name="" value="Resume" onmouseup="zxcresumeTime('time');" style="visibility:hidden"/>
+</body>
+
+</html>
+</div>
+<% end %>

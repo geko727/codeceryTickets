@@ -4,16 +4,18 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   helper_method :current_user
-
+  helper_method :code_comment_or_ticket
   helper_method :comment_or_ticket
 
   def require_user 
-  	redirect_to "/sign_in" unless current_user
+    if current_user.codecery
+      redirect_to code_index_path
+    else
+  	  redirect_to "/sign_in" unless current_user
+    end
   end
 
   def comment_or_ticket
-    
-
     @ticket = Ticket.where(user: current_user).order("last_comment").last
       if @ticket.last_comment == nil 
         @ticket = Ticket.where(user: current_user).order(:updated_at).last
@@ -24,7 +26,22 @@ class ApplicationController < ActionController::Base
         end
       end
     @ticket
+  end
 
+  def code_comment_or_ticket
+    @last_ticket = Ticket.last
+    @last_commented = Ticket.order('last_comment').last
+     if @last_commented.last_comment == nil 
+        @ticket = Ticket.order(:updated_at).last
+        
+     else 
+        if @last_ticket.updated_at > @last_commented.last_comment
+          @ticket = @last_ticket
+        else
+          @ticket = @last_commented
+        end
+     end
+    @ticket
   end
 
   def current_user

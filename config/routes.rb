@@ -9,6 +9,7 @@ CodeceryTickets::Application.routes.draw do
   post '/sessions', to: "sessions#create"
   get 'sign_out', to: 'sessions#destroy'
   get '/register', to: 'users#new'
+  get '/code_index', to: 'tickets#code_index'
 
 
   # The priority is based upon order of creation: first created -> highest priority.

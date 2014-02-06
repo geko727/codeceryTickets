@@ -1,9 +1,9 @@
-<h1><%= current_user.name %>'s tickets</h1>
+<h1><%= current_user.company %>'s tickets</h1>
 
 
 <div>
   <h2>Last Activity</h2>
-  <% if @tickets != [] %>
+  <% if @tickets %>
     <table>
       <thead>
         <tr>
@@ -11,20 +11,21 @@
           <th>Description</th>
           <th>Deadline</th>
           <th>Status</th>
+          <th>Author</th>
           <!--<th></th>
-          <th></th>
           <th></th>-->
         </tr>
       </thead>
 
       <tbody>
-        <% @ticket = comment_or_ticket %>
+        <% @ticket = code_comment_or_ticket %>
         
           <tr>
-            <td><%= link_to @ticket.title, @ticket %></td>
+            <td><%= @ticket.title %></td>
             <td><%= @ticket.description %></td>
             <td><%= @ticket.deadline %></td>
             <td><%= @ticket.status %></td>
+            <td><%= @ticket.user.name %> <%= @ticket.user.last_name %></td>
             <!--<td><%= link_to 'Show', @ticket %></td>
             <td><%= link_to 'Edit', edit_ticket_path(@ticket) %></td>
             <td><%= link_to 'Destroy', @ticket, method: :delete, data: { confirm: 'Are you sure?' } %></td>-->
@@ -37,7 +38,7 @@
         <%= @ticket.comments.last.body %>  - created at: <%= @ticket.comments.last.created_at %> by <%= @ticket.comments.last.user.name %> <%= @ticket.comments.last.user.last_name %>
       <% end %> 
     <% else %>
-      <h3> You have not generated any tickets yet. </h3>
+      <h3> Tickets are not generated yet. </h3>
   <% end %>
 </div>
 
@@ -45,14 +46,14 @@
 
 <div>
   <h2>Listing Tickets</h2>
-  <% if @tickets != [] %>
+  <% if @tickets %>
     <table>
       <thead>
         <tr>
           <th>Title</th>
           <th>Description</th>
-          <!--<th>Deadline</th>
-          <th>Status</th>
+          <th>Author</th>
+          <!--<th>Status</th>
           <th></th>
           <th></th>
           <th></th>-->
@@ -64,8 +65,8 @@
           <tr>
             <td><%= link_to ticket.title, ticket %></td>
             <td><%= ticket.description %></td>
-            <!--<td><%= ticket.deadline %></td>
-            <td><%= ticket.status %></td>
+            <td><%= ticket.user.name %> <%= ticket.user.last_name %></td>
+            <!--<td><%= ticket.status %></td>
             <td><%= link_to 'Show', ticket %></td>
             <td><%= link_to 'Edit', edit_ticket_path(ticket) %></td>
             <td><%= link_to 'Destroy', ticket, method: :delete, data: { confirm: 'Are you sure?' } %></td>-->
@@ -80,36 +81,5 @@
 <br>
 
 
-<div>
-  <h2> New Ticket </h2>
-    <%= form_for(@new_ticket) do |f| %>
-  <% if @new_ticket.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@new_ticket.errors.count, "error") %> prohibited this ticket from being saved:</h2>
 
-      <ul>
-      <% @ticket.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :title %><br>
-    <%= f.text_field :title %>
-  </div>
-  <div class="field">
-    <%= f.label :description %><br>
-    <%= f.text_area :description %>
-  </div>
-  <div class="field">
-    <%= f.label :deadline %><br>
-    <%= f.date_select :deadline %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
-</div>
 

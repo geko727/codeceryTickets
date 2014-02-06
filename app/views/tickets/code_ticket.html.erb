@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @ticket.title %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @ticket.description %>
+</p>
+
+<p>
+  <strong>Deadline:</strong>
+  <%= @ticket.deadline %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @ticket.status %>
+</p>
+
+<p>
+  <strong>Created at:</strong>
+  <%= @ticket.created_at %> by <%= @ticket.user.name %> <%= @ticket.user.last_name %> 
+</p>
+
+<strong>Comments:</strong>
+<p>
+
+<%= form_for [@ticket, @comment] do |f| %>
+  <%= f.text_area :body %>
+  </br>
+  <%= f.submit "Create comment", class: 'btn btn-primary' %>
+<% end %>
+</br>
+<% @ticket.comments.each do |comment| %>
+	<%= comment.body %> - created at: <%= comment.created_at %> by <%= comment.user.name %> <%= comment.user.last_name %>
+  </br>
+<% end %>
+</p>
+
+<%= link_to 'Edit', edit_ticket_path(@ticket) %> |
+<%= link_to 'Back', tickets_path %>
